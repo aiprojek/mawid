@@ -11,9 +11,8 @@ export const WelcomeModal: React.FC<WelcomeModalProps> = ({ onClose, onGoToGuide
     return (
         <div className="fixed inset-0 bg-gray-900/80 backdrop-blur-sm z-50 flex items-center justify-center p-4" role="dialog" aria-modal="true" aria-labelledby="welcome-title">
             <div className="bg-white dark:bg-slate-800 rounded-2xl shadow-xl p-6 md:p-8 max-w-md w-full text-center transform transition-all animate-fade-in scale-95 motion-safe:animate-scale-up">
-                <img src="/mawid.png" alt="Maw'id Logo" className="w-20 h-20 mx-auto mb-4 rounded-3xl shadow-lg" />
                 
-                <h2 id="welcome-title" className="text-3xl font-bold text-slate-800 dark:text-white">{t('welcome.title')}</h2>
+                <h2 id="welcome-title" className="text-3xl font-bold text-slate-800 dark:text-white mb-4">{t('welcome.title')}</h2>
                 <p className="mt-2 text-slate-600 dark:text-slate-300">
                     {t('welcome.message')}
                 </p>

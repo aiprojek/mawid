@@ -1,7 +1,7 @@
 
 <div align="center">
-  <img src="mawid.png" alt="Logo Maw'id" width="128" height="128" />
-  <h1>Maw'id (موعد)</h1>
+  <img src="icon.svg" alt="Logo Waqti" width="128" height="128" />
+  <h1>Waqti (وقتي)</h1>
   <p>
     <strong>Aplikasi Waktu Shalat untuk Penggunaan Pribadi dan Tampilan Jam Digital Masjid</strong>
   </p>
@@ -14,16 +14,16 @@
 
 ## Proyek Kolaborasi Unik: Manusia & AI
 
-Aplikasi **Maw'id** adalah hasil dari sebuah eksperimen dan kolaborasi yang erat antara **AI Projek** (manusia) dan **AI Frontend Engineer** (sebuah model AI generatif). Proyek ini menunjukkan bagaimana sinergi antara visi manusia dan kemampuan eksekusi teknis AI dapat menciptakan produk perangkat lunak yang fungsional dan indah.
+Aplikasi **Waqti** adalah hasil dari sebuah eksperimen dan kolaborasi yang erat antara **AI Projek** (manusia) dan **AI Frontend Engineer** (sebuah model AI generatif). Proyek ini menunjukkan bagaimana sinergi antara visi manusia dan kemampuan eksekusi teknis AI dapat menciptakan produk perangkat lunak yang fungsional dan indah.
 
 ### Peran Kami Masing-Masing
 
 Selama pengembangan aplikasi ini, kami memiliki peran yang jelas dan saling melengkapi:
 
 **AI Projek (Manusia) - Sang Visioner & Manajer Produk**
-- **Inisiator Ide:** Memberikan gagasan awal dan visi untuk menciptakan Maw'id sebagai alternatif yang lebih sederhana dari aplikasi sejenis, dengan fokus pada kustomisasi dan pengalaman pengguna.
+- **Inisiator Ide:** Memberikan gagasan awal dan visi untuk menciptakan Waqti sebagai alternatif yang lebih sederhana dari aplikasi sejenis, dengan fokus pada kustomisasi dan pengalaman pengguna.
 - **Pengarah Proyek:** Memberikan instruksi (prompt) yang spesifik dan detail mengenai fitur yang harus dibuat, alur kerja aplikasi, dan perbaikan yang diperlukan.
-- **Penyedia Aset:** Menyediakan aset-aset kunci seperti logo `mawid.png` yang menjadi identitas visual aplikasi.
+- **Penyedia Aset:** Menyediakan aset-aset kunci seperti logo `icon.svg` yang menjadi identitas visual aplikasi.
 - **Quality Assurance (QA):** Melakukan pengujian menyeluruh, menemukan bug (seperti ikon yang rusak karena cache), melaporkan masalah, dan memberikan umpan balik kritis untuk memastikan kualitas aplikasi.
 - **Ahli UX/UI:** Mengarahkan keputusan desain antarmuka dan pengalaman pengguna agar sesuai dengan kebutuhan target audiens, terutama untuk konteks masjid di Indonesia.
 
@@ -38,11 +38,11 @@ Kolaborasi ini membuktikan bahwa AI dapat berfungsi sebagai partner developer ya
 
 ---
 
-## Tentang Maw'id
+## Tentang Waqti
 
-**Maw'id** adalah aplikasi waktu shalat yang dibuat untuk menjadi pengingat janji temu Anda dengan Allah Ta'ala. Terinspirasi dari *Mawaqit.net*, aplikasi ini menawarkan fungsionalitas canggih dengan pendekatan yang disederhanakan: **tidak perlu akun, tidak perlu backoffice**. Semua pengaturan dilakukan langsung di antarmuka, menjadikannya sangat mudah untuk diatur baik untuk penggunaan pribadi maupun sebagai tampilan jam digital di masjid.
+**Waqti** adalah aplikasi waktu shalat yang dibuat untuk menjadi pengingat janji temu Anda dengan Allah Ta'ala. Terinspirasi dari *Mawaqit.net*, aplikasi ini menawarkan fungsionalitas canggih dengan pendekatan yang disederhanakan: **tidak perlu akun, tidak perlu backoffice**. Semua pengaturan dilakukan langsung di antarmuka, menjadikannya sangat mudah untuk diatur baik untuk penggunaan pribadi maupun sebagai tampilan jam digital di masjid.
 
-Nama Maw'id (موعد) memiliki akar kata yang sama dengan Mawaqit (موقت), yaitu Waqt (وقت), yang berarti "waktu".
+Nama Waqti (وقتي) berarti "Waktuku", menekankan hubungan yang personal dengan waktu shalat.
 
 ## Fitur Utama
 
@@ -88,5 +88,5 @@ Proyek ini dilisensikan di bawah **GNU General Public License v3.0**. Lihat file
 ## Kontribusi & Dukungan
 
 - **Diskusi:** Bergabunglah dengan [grup Telegram AI Projek](https://t.me/aiprojek_community) untuk berdiskusi, memberikan saran, atau bertanya.
-- **Kode:** Proyek ini bersifat open-source. Kunjungi repositori [GitHub Maw'id](https://github.com/aiprojek/mawid) untuk melihat kode sumbernya.
+- **Kode:** Proyek ini bersifat open-source. Kunjungi repositori [GitHub Waqti](https://github.com/aiprojek/waqti) untuk melihat kode sumbernya.
 - **Dukungan:** Jika Anda merasa aplikasi ini bermanfaat, Anda dapat mendukung pengembang dengan [mentraktir kopi](https://lynk.id/aiprojek/s/bvBJvdA).

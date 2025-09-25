@@ -11,7 +11,17 @@ const LanguageContext = createContext<LanguageContextType | undefined>(undefined
 export const LanguageProvider: React.FC<{ children: ReactNode }> = ({ children }) => {
     const [language, setLanguageState] = useState<Language>(() => {
         try {
-            const savedLang = localStorage.getItem('mawid-lang') as Language;
+            let savedLang = localStorage.getItem('waqti-lang') as Language;
+             // Migration from old key
+            if (!savedLang) {
+                const oldLang = localStorage.getItem('mawid-lang') as Language;
+                if (oldLang) {
+                    savedLang = oldLang;
+                    localStorage.setItem('waqti-lang', oldLang);
+                    localStorage.removeItem('mawid-lang');
+                }
+            }
+
             if (savedLang && ['id', 'en'].includes(savedLang)) {
                 return savedLang;
             }
@@ -25,7 +35,7 @@ export const LanguageProvider: React.FC<{ children: ReactNode }> = ({ children }
     useEffect(() => {
         setI18nLanguage(language);
         try {
-            localStorage.setItem('mawid-lang', language);
+            localStorage.setItem('waqti-lang', language);
         } catch (e) {
             console.error("Could not save language to localStorage", e);
         }

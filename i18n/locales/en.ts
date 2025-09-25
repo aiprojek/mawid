@@ -18,7 +18,7 @@ export const en = {
         jumat: "Jum'at",
     },
     welcome: {
-        title: 'Welcome to Maw\'id',
+        title: 'Welcome to Waqti',
         message: 'Your personal reminder for appointments with The Creator. Before you begin, please select your preferred language.',
         language: 'Select Language',
         guide: 'View Guide',
@@ -226,10 +226,10 @@ export const en = {
             guide: 'User Guide'
         },
         about: {
-            appName: "Maw'id",
-            description_part1: "A prayer times application created as a reminder of your appointment with The Creator (Allah Ta'ala). Features customizations, themes, and dynamic content for personal use and digital mosque clock displays. Inspired by ",
+            appName: "Waqti",
+            description_part1: "A modern and personal prayer times application to accompany your time with The Creator. Features customizations, themes, and dynamic content for personal use and digital mosque clock displays. Inspired by ",
             mawaqit_link_text: "Mawaqit",
-            description_part2: " with simplified usage—no account or backoffice needed. The name Maw'id (موعد) shares the same root word as Mawaqit (موقت), which is Waqt (وقت).",
+            description_part2: " with simplified usage—no account or backoffice needed. The name Waqti (وقتي) means 'My Time', emphasizing a personal connection to prayer times.",
             featuresTitle: 'Key Features',
             features: "Automatic Prayer Times:Calculates prayer times based on city and selected method.|Customizable Calculations:Adjust methods, madhab, and time corrections.|Iqamah Countdown:Displays a countdown from adhan to iqamah.|Jum'ah Mode:Special display mode for Friday prayers.|Display Layouts:Choose from Focus, Dashboard, or Minimalist views.|Dynamic Slideshow:Display text, images, schedules, and financial reports.|Theming:Customize accent colors and wallpapers.|Running Text:Show custom messages or themed content.|Dhikr Display:Shows a sequence of dhikr after prayers.|Offline Support:Continues to function even without an internet connection.|PWA Support:Can be installed on your device for quick access and a native app-like experience.|Orientation Modes:Responsive support for both landscape (wide) and portrait (tall) displays.|Backup & Restore Data:Easily export and import all your settings.",
             supportTitle: 'Developer',

@@ -18,7 +18,7 @@ export const id = {
         jumat: "Jum'at",
     },
     welcome: {
-        title: "Selamat Datang di Maw'id",
+        title: "Selamat Datang di Waqti",
         message: 'Pengingat pribadi Anda untuk janji temu dengan Sang Pencipta. Sebelum memulai, silakan pilih bahasa yang Anda inginkan.',
         language: 'Pilih Bahasa',
         guide: 'Lihat Panduan',
@@ -226,10 +226,10 @@ export const id = {
             guide: 'Panduan Pengguna'
         },
         about: {
-            appName: "Maw'id",
-            description_part1: "Aplikasi waktu shalat yang dibuat sebagai pengingat janji temu Anda dengan Sang Pencipta (Allah Ta'ala). Dilengkapi kustomisasi, tema, dan konten dinamis untuk penggunaan pribadi dan tampilan jam digital masjid. Terinspirasi dari ",
+            appName: "Waqti",
+            description_part1: "Aplikasi waktu shalat yang modern dan personal untuk menemani Waktu Anda bersama Sang Pencipta. Dilengkapi kustomisasi, tema, dan konten dinamis untuk penggunaan pribadi dan tampilan jam digital masjid. Terinspirasi dari ",
             mawaqit_link_text: "Mawaqit",
-            description_part2: " dengan penyederhanaan penggunaan yaitu tanpa perlu akun dan backoffice untuk menggunakan. Nama Maw'id (موعد) juga memiliki akar kata yang sama dengan Mawaqit (موقت) yaitu Waqt (وقت).",
+            description_part2: " dengan penyederhanaan penggunaan yaitu tanpa perlu akun dan backoffice untuk menggunakan. Nama Waqti (وقتي) berarti 'Waktuku', menekankan hubungan yang personal dengan waktu shalat.",
             featuresTitle: 'Fitur Utama',
             features: "Waktu Shalat Otomatis:Menghitung waktu shalat berdasarkan kota dan metode pilihan.|Kalkulasi Kustom:Sesuaikan metode, madhab, dan koreksi waktu.|Hitung Mundur Iqamah:Menampilkan hitung mundur dari adzan ke iqamah.|Mode Jum'at:Mode tampilan khusus untuk shalat Jum'at.|Layout Tampilan:Pilih dari mode Fokus, Dasbor, atau Minimalis.|Slideshow Dinamis:Tampilkan teks, gambar, jadwal kajian, dan laporan keuangan.|Kustomisasi Tema:Ubah warna aksen dan gambar latar belakang.|Teks Berjalan:Tampilkan pesan kustom atau konten bertema.|Tampilan Dzikir:Menampilkan rangkaian dzikir setelah shalat.|Dukungan Offline:Tetap berfungsi meski tanpa koneksi internet.|Dukungan PWA:Dapat diinstal di perangkat Anda untuk akses cepat dan pengalaman seperti aplikasi asli.|Mode Orientasi:Mendukung tampilan landscape (lebar) dan portrait (tinggi) yang responsif.|Cadangkan & Pulihkan Data:Ekspor dan impor semua pengaturan Anda dengan mudah.",
             supportTitle: 'Pengembang',

@@ -14,8 +14,7 @@ export const AboutTab: React.FC = () => {
     return (
         <div className="space-y-8">
             <section className="text-center">
-                <img src="/mawid.png" alt="App Icon" className="w-24 h-24 mx-auto mb-4 rounded-3xl shadow-lg" />
-                <h1 className="text-4xl font-bold text-[var(--accent-color)]">{t('info.about.appName')}</h1>
+                <h1 className="text-4xl font-bold text-[var(--accent-color)] mb-2">{t('info.about.appName')}</h1>
                 <p className="mt-2 text-lg text-slate-600 dark:text-slate-300">
                     {t('info.about.description_part1')}
                     <a href="https://mawaqit.net" target="_blank" rel="noopener noreferrer" className="text-[var(--accent-color)] hover:underline font-semibold">
@@ -48,7 +47,7 @@ export const AboutTab: React.FC = () => {
                         <TelegramIcon />
                         <span>{t('info.about.discussion')}</span>
                     </a>
-                    <a href="https://github.com/aiprojek/mawid" target="_blank" rel="noopener noreferrer" className="flex items-center justify-center gap-3 p-4 bg-slate-700 text-white rounded-lg font-semibold hover:bg-slate-800 transition-colors">
+                    <a href="https://github.com/aiprojek/waqti" target="_blank" rel="noopener noreferrer" className="flex items-center justify-center gap-3 p-4 bg-slate-700 text-white rounded-lg font-semibold hover:bg-slate-800 transition-colors">
                         <GithubIcon />
                         <span>{t('info.about.github')}</span>
                     </a>

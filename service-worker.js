@@ -1,9 +1,9 @@
-const CACHE_NAME = 'mawid-cache-v1';
+const CACHE_NAME = 'waqti-cache-v1';
 const URLS_TO_CACHE = [
     '/',
     '/index.html',
     '/manifest.json',
-    '/mawid.png',
+    '/icon.svg',
     'https://cdn.tailwindcss.com',
     'https://fonts.googleapis.com/css2?family=Amiri:wght@400;700&display=swap',
     'https://cdn.quilljs.com/1.3.6/quill.snow.css',

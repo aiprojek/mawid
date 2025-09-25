@@ -1,17 +1,18 @@
+
 {
-  "short_name": "Maw'id",
-  "name": "Maw'id",
+  "short_name": "Waqti",
+  "name": "Waqti",
   "description": "Aplikasi waktu shalat modern yang dirancang sebagai pengingat janji temu Anda dengan Sang Pencipta.",
   "icons": [
     {
-      "src": "/mawid.png",
-      "type": "image/png",
+      "src": "/icon.svg",
+      "type": "image/svg+xml",
       "sizes": "192x192",
       "purpose": "any"
     },
     {
-      "src": "/mawid.png",
-      "type": "image/png",
+      "src": "/icon.svg",
+      "type": "image/svg+xml",
       "sizes": "512x512",
       "purpose": "any maskable"
     }

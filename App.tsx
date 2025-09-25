@@ -82,7 +82,7 @@ const TimeSensitiveContent: React.FC<{ prayerTimes: PrayerTimes | null, stale: b
     
     // NEW: Effect for Dynamic Page Title
     useEffect(() => {
-        const originalTitle = "Maw'id";
+        const originalTitle = "Waqti";
         const isJumatPrayer = isFriday && settings.enableFridayMode && activePrayer === 'Dhuhr';
 
         switch(displayState) {
@@ -408,7 +408,7 @@ const AppContent = () => {
 
     useEffect(() => {
         try {
-            const hasSeenWelcome = localStorage.getItem('mawid-has-seen-welcome');
+            const hasSeenWelcome = localStorage.getItem('waqti-has-seen-welcome');
             if (!hasSeenWelcome) {
                 setShowWelcomeModal(true);
             }
@@ -419,7 +419,7 @@ const AppContent = () => {
 
     const handleCloseWelcome = () => {
         try {
-            localStorage.setItem('mawid-has-seen-welcome', 'true');
+            localStorage.setItem('waqti-has-seen-welcome', 'true');
         } catch (error) {
              console.error("Could not set item in localStorage", error);
         }

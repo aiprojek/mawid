@@ -83,7 +83,7 @@ const getDefaultFridaySlides = (lang: Language): Slide[] => {
 export const getDefaultSettings = (lang: Language): Settings => {
     const locale = getRawLocale(lang);
     return {
-        mosqueName: "Maw'id",
+        mosqueName: "Waqti",
         city: "Jakarta",
         calculationMethod: 17, // Kementerian Agama Republik Indonesia
         madhab: 0,

@@ -19,7 +19,17 @@ export const SettingsProvider: React.FC<{ children: ReactNode }> = ({ children }
 
     const [settings, setSettings] = useState<Settings>(() => {
         try {
-            const savedSettings = localStorage.getItem('prayerTimesSettings');
+            let savedSettings = localStorage.getItem('waqtiPrayerTimesSettings');
+            // Migration from old key
+            if (!savedSettings) {
+                const oldSettings = localStorage.getItem('prayerTimesSettings');
+                if (oldSettings) {
+                    savedSettings = oldSettings;
+                    localStorage.setItem('waqtiPrayerTimesSettings', oldSettings);
+                    localStorage.removeItem('prayerTimesSettings');
+                }
+            }
+
             if (savedSettings) {
                 const parsed = JSON.parse(savedSettings);
 
@@ -110,7 +120,7 @@ export const SettingsProvider: React.FC<{ children: ReactNode }> = ({ children }
     const saveSettings = useCallback((newSettings: Settings) => {
         try {
             const settingsString = JSON.stringify(newSettings);
-            localStorage.setItem('prayerTimesSettings', settingsString);
+            localStorage.setItem('waqtiPrayerTimesSettings', settingsString);
             setSettings(newSettings);
         } catch (error) {
             console.error("Failed to save settings to localStorage", error);
@@ -119,7 +129,7 @@ export const SettingsProvider: React.FC<{ children: ReactNode }> = ({ children }
 
     // Effect to update settings if language changes and no settings are saved yet
     useEffect(() => {
-        const savedSettings = localStorage.getItem('prayerTimesSettings');
+        const savedSettings = localStorage.getItem('waqtiPrayerTimesSettings');
         if (!savedSettings) {
             setSettings(getDefaultSettings(language));
         }

@@ -5,9 +5,9 @@
    viewBox="0 0 100 100"
    version="1.1"
    id="svg19"
-   sodipodi:docname="mawid.svg"
+   sodipodi:docname="waqti.svg"
    inkscape:version="1.2.2 (b0a8486541, 2022-12-01)"
-   inkscape:export-filename="mawid.png"
+   inkscape:export-filename="waqti.png"
    inkscape:export-xdpi="96"
    inkscape:export-ydpi="96"
    xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
@@ -81,13 +81,13 @@
   </g>
   <text
      xml:space="preserve"
-     style="font-weight:bold;font-size:32.5264px;font-family:'Liberation Sans';-inkscape-font-specification:'Liberation Sans Bold';fill:#ffffff;stroke:none;stroke-width:4.53282;stroke-linecap:round;stroke-linejoin:round;stroke-dashoffset:50"
-     x="20.670265"
+     style="font-weight:bold;font-size:32.5264px;font-family:'Liberation Sans';-inkscape-font-specification:'Liberation Sans Bold';fill:#ffffff;stroke:none;stroke-width:4.53282;stroke-linecap:round;stroke-linejoin:round;stroke-dashoffset:50;text-align:center;text-anchor:middle"
+     x="50"
      y="87.378273"
      id="text304"><tspan
        sodipodi:role="line"
        id="tspan302"
-       style="font-style:normal;font-variant:normal;font-weight:bold;font-stretch:normal;font-family:KacstArt;-inkscape-font-specification:'KacstArt Bold';fill:#ffffff;stroke:none;stroke-width:4.53282"
-       x="20.670265"
-       y="87.378273">موعد</tspan></text>
+       style="font-style:normal;font-variant:normal;font-weight:bold;font-stretch:normal;font-family:KacstArt;-inkscape-font-specification:'KacstArt Bold';fill:#ffffff;stroke:none;stroke-width:4.53282;text-align:center;text-anchor:middle"
+       x="50"
+       y="87.378273">وقتي</tspan></text>
 </svg>
