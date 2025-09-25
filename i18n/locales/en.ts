@@ -17,6 +17,13 @@ export const en = {
         jummah: "Jum'ah",
         jumat: "Jum'at",
     },
+    welcome: {
+        title: 'Welcome to Maw\'id',
+        message: 'Your personal reminder for appointments with The Creator. Before you begin, please select your preferred language.',
+        language: 'Select Language',
+        guide: 'View Guide',
+        start: 'Get Started'
+    },
     prayerNames: {
         Fajr: 'Fajr',
         Sunrise: 'Sunrise',
@@ -239,7 +246,7 @@ export const en = {
 - Mosque Name: The name displayed on the main screen.
 - Language: Changes the application's interface language.
 - City: Determines the prayer time calculations. The app will fetch data from the internet based on this city.
-- Data Management: You can export all current settings into a .json file as a backup or to move to another device. Use import to restore from that file.`
+- Data Management: You can export all current settings into a .json file as a backup or to move them to another device. Use import to restore from that file.`
             },
             calculation: {
                 title: 'Calculation Settings',

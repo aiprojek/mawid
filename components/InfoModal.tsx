@@ -20,11 +20,12 @@ type TabNameKey = (typeof TABS)[number];
 
 interface PageProps {
     onBack: () => void;
+    defaultTab?: TabNameKey;
 }
 
-export const InfoPage: React.FC<PageProps> = ({ onBack }) => {
+export const InfoPage: React.FC<PageProps> = ({ onBack, defaultTab = 'about' }) => {
     const { settings } = useSettings();
-    const [activeTab, setActiveTab] = useState<TabNameKey>('about');
+    const [activeTab, setActiveTab] = useState<TabNameKey>(defaultTab);
     const [isMobileNavOpen, setIsMobileNavOpen] = useState(false);
     
     const backgroundStyle = useMemo(() => ({

@@ -17,6 +17,13 @@ export const id = {
         jummah: "Jum'at",
         jumat: "Jum'at",
     },
+    welcome: {
+        title: "Selamat Datang di Maw'id",
+        message: 'Pengingat pribadi Anda untuk janji temu dengan Sang Pencipta. Sebelum memulai, silakan pilih bahasa yang Anda inginkan.',
+        language: 'Pilih Bahasa',
+        guide: 'Lihat Panduan',
+        start: 'Mulai Gunakan'
+    },
     prayerNames: {
         Fajr: 'Subuh',
         Sunrise: 'Terbit',

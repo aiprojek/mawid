@@ -14,6 +14,7 @@ import { DisplayState, PrayerName, PrayerTimes } from './types';
 import { IQAMAH_PRAYERS } from './constants';
 import { parseTimeToDate } from './utils';
 import { t } from './i18n';
+import { WelcomeModal } from './components/WelcomeModal';
 
 // This component isolates all the logic that needs to update every second.
 // By doing this, the parent component (AppContent) and its other children (Header, Footer)
@@ -400,18 +401,55 @@ const MainViewLayout: React.FC<{
 
 const AppContent = () => {
     const [currentView, setCurrentView] = useState<'main' | 'settings' | 'info'>('main');
+    const [infoDefaultTab, setInfoDefaultTab] = useState<'about' | 'guide'>('about');
     const { prayerTimes, stale } = usePrayerTimes();
-    const { language } = useLanguage(); // Re-render on language change
+    const { language } = useLanguage();
+    const [showWelcomeModal, setShowWelcomeModal] = useState(false);
+
+    useEffect(() => {
+        try {
+            const hasSeenWelcome = localStorage.getItem('mawid-has-seen-welcome');
+            if (!hasSeenWelcome) {
+                setShowWelcomeModal(true);
+            }
+        } catch (error) {
+            console.error("Could not access localStorage", error);
+        }
+    }, []);
+
+    const handleCloseWelcome = () => {
+        try {
+            localStorage.setItem('mawid-has-seen-welcome', 'true');
+        } catch (error) {
+             console.error("Could not set item in localStorage", error);
+        }
+        setShowWelcomeModal(false);
+    };
+
+    const handleGoToGuide = () => {
+        handleCloseWelcome(); // Also marks as seen
+        setInfoDefaultTab('guide');
+        setCurrentView('info');
+    };
+
+    const handleInfoClick = () => {
+        setInfoDefaultTab('about'); // Default to about tab when clicking from header
+        setCurrentView('info');
+    };
 
     // This key forces a re-render of child components when language changes,
     // ensuring all text is updated correctly.
     const key = useMemo(() => language, [language]);
 
+    if (showWelcomeModal) {
+        return <WelcomeModal onClose={handleCloseWelcome} onGoToGuide={handleGoToGuide} />;
+    }
+
     switch (currentView) {
         case 'settings':
             return <SettingsPage key={key} onBack={() => setCurrentView('main')} />;
         case 'info':
-            return <InfoPage key={key} onBack={() => setCurrentView('main')} />;
+            return <InfoPage key={key} onBack={() => setCurrentView('main')} defaultTab={infoDefaultTab} />;
         default:
              return (
                 <DynamicBackgroundView prayerTimes={prayerTimes}>
@@ -419,7 +457,7 @@ const AppContent = () => {
                         prayerTimes={prayerTimes}
                         stale={stale}
                         onSettingsClick={() => setCurrentView('settings')} 
-                        onInfoClick={() => setCurrentView('info')} 
+                        onInfoClick={handleInfoClick} 
                     />
                 </DynamicBackgroundView>
             );

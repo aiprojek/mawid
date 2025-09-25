@@ -1,6 +1,12 @@
 import { useState, useEffect } from 'react';
 import { useLanguage } from '../contexts/LanguageContext';
 
+const HIJRI_MONTHS_LATIN = [
+    "Muharram", "Safar", "Rabi' al-Awwal", "Rabi' al-Thani",
+    "Jumada al-Awwal", "Jumada al-Thani", "Rajab", "Sha'ban",
+    "Ramadan", "Shawwal", "Dhu al-Qi'dah", "Dhu al-Hijjah"
+];
+
 const useClock = () => {
     const [time, setTime] = useState(new Date());
     const { language } = useLanguage();
@@ -44,15 +50,36 @@ const useClock = () => {
     
     const formatHijriDate = (date: Date) => {
          try {
-            // Use Intl API for accurate Hijri date conversion with Indonesian/English locale
+            // Use a neutral locale ('en') with the islamic calendar to get numeric parts
+            // This avoids locale-specific month names and ensures we get a consistent base
+            const hijriFormatter = new Intl.DateTimeFormat('en-u-ca-islamic', {
+                day: 'numeric',
+                month: 'numeric',
+                year: 'numeric'
+            });
+
+            // formatToParts is more robust for extracting specific date components
+            const parts = hijriFormatter.formatToParts(date);
+            const day = parts.find(p => p.type === 'day')?.value;
+            const monthIndex = parseInt(parts.find(p => p.type === 'month')?.value || '1', 10) - 1;
+            const year = parts.find(p => p.type === 'year')?.value?.split(' ')[0]; // Removes "AH" suffix
+
+            // Construct the date string using the standard transliteration
+            if (day && monthIndex >= 0 && monthIndex < 12 && year) {
+                const monthName = HIJRI_MONTHS_LATIN[monthIndex];
+                return `${day} ${monthName} ${year}`;
+            }
+            
+            // Fallback to the old method if for some reason parts parsing fails
             return new Intl.DateTimeFormat(`${locale}-u-ca-islamic`, {
                 day: 'numeric',
                 month: 'long',
                 year: 'numeric'
-            }).format(date);
+            }).format(date).replace(/ AH$/, '').trim();
+
         } catch (e) {
             // Fallback for older browsers or environments without full Intl support
-            const day = date.getDate();
+            console.error("Hijri date formatting failed:", e);
             const year = date.getFullYear();
             if (year < 622) return "Before Hijri";
             return "Hijri date unavailable";
