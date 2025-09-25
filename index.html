@@ -1,0 +1,174 @@
+<!DOCTYPE html>
+<html lang="id">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+    <!-- SEO Meta Tags -->
+    <meta name="description" content="Aplikasi waktu shalat yang dibuat sebagai pengingat janji temu Anda dengan Sang Pencipta. Dilengkapi kustomisasi, tema, dan konten dinamis untuk penggunaan pribadi dan tampilan masjid." />
+    <meta name="keywords" content="waktu shalat, jadwal shalat, aplikasi shalat, jam digital masjid, prayer times, islamic prayer, mosque clock, mawid, mawaqit, ai projek" />
+    <meta name="author" content="AI Projek" />
+    <meta name="robots" content="index, follow" />
+
+    <!-- Open Graph / Facebook Meta Tags -->
+    <meta property="og:type" content="website" />
+    <meta property="og:title" content="Maw'id - Aplikasi Waktu Shalat & Jam Digital Masjid" />
+    <meta property="og:description" content="Aplikasi waktu shalat yang dibuat sebagai pengingat janji temu Anda dengan Sang Pencipta. Dilengkapi kustomisasi, tema, dan konten dinamis untuk penggunaan pribadi dan tampilan masjid." />
+    
+    <!-- Twitter Meta Tags -->
+    <meta name="twitter:card" content="summary" />
+    <meta name="twitter:title" content="Maw'id - Aplikasi Waktu Shalat & Jam Digital Masjid" />
+    <meta name="twitter:description" content="Aplikasi waktu shalat yang dibuat sebagai pengingat janji temu Anda dengan Sang Pencipta. Dilengkapi kustomisasi, tema, dan konten dinamis untuk penggunaan pribadi dan tampilan masjid." />
+    
+    <title>Maw'id</title>
+    <link rel="icon" href="/mawid.png" type="image/png">
+    <link rel="manifest" href="/manifest.json">
+    <meta name="theme-color" content="#8B5CF6">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Amiri:wght@400;700&display=swap" rel="stylesheet">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Quill.js Editor -->
+    <link href="https://cdn.quilljs.com/1.3.6/quill.snow.css" rel="stylesheet">
+    <script src="https://cdn.quilljs.com/1.3.6/quill.js"></script>
+    <!-- Recharts Charting Library -->
+    <script src="https://unpkg.com/prop-types@15.8.1/prop-types.min.js"></script>
+    <script src="https://unpkg.com/recharts@2.12.7/umd/Recharts.min.js"></script>
+    <script>
+      tailwind.config = {
+        darkMode: 'class',
+      }
+    </script>
+    <style>
+      /* Custom scrollbar for better aesthetics */
+      ::-webkit-scrollbar {
+        width: 8px;
+        height: 8px;
+      }
+      ::-webkit-scrollbar-track {
+        background: rgba(0,0,0,0.1);
+        border-radius: 10px;
+      }
+      ::-webkit-scrollbar-thumb {
+        background: rgba(255,255,255,0.2);
+        border-radius: 10px;
+      }
+      ::-webkit-scrollbar-thumb:hover {
+        background: rgba(255,255,255,0.4);
+      }
+      /* Animation for running text - runs once from right to left */
+      @keyframes marquee-run-once {
+        from { transform: translateX(100%); }
+        to { transform: translateX(-100%); }
+      }
+
+      /* New animation for glowing effect on the next prayer */
+      @keyframes pulse-glow {
+        0%, 100% {
+          box-shadow: 0 0 20px -5px var(--accent-glow-color, rgba(139, 92, 246, 0.4));
+        }
+        50% {
+          box-shadow: 0 0 35px 5px var(--accent-glow-color, rgba(139, 92, 246, 0.7));
+        }
+      }
+      .animate-pulse-glow {
+        animation: pulse-glow 4s infinite ease-in-out;
+      }
+
+      /* New animation for a subtle, dynamic background gradient */
+      @keyframes aurora-bg {
+        0% { background-position: 0% 50%; }
+        50% { background-position: 100% 50%; }
+        100% { background-position: 0% 50%; }
+      }
+      .animate-aurora {
+        background-size: 400% 400%;
+        animation: aurora-bg 30s ease infinite;
+      }
+
+      /* NEW: Elegant fade-in animation for clock numbers */
+      @keyframes fade-in {
+        from {
+          opacity: 0;
+        }
+        to {
+          opacity: 1;
+        }
+      }
+      .animate-fade-in {
+        animation: fade-in 0.5s ease-in-out;
+      }
+
+      /* Quill Editor Customization */
+      .quill-editor-container {
+          height: 120px; /* Total height for toolbar + editor */
+          display: flex;
+          flex-direction: column;
+          border-radius: 0.375rem; /* rounded-md */
+          overflow: hidden;
+          border: 1px solid #cbd5e1; /* slate-300 */
+      }
+      .dark .quill-editor-container {
+          border-color: #64748b; /* slate-500 */
+      }
+      .quill-editor-container .ql-toolbar {
+          flex-shrink: 0;
+          border: none !important;
+          border-bottom: 1px solid #cbd5e1 !important; /* slate-300 */
+      }
+      .quill-editor-container .ql-container {
+          flex-grow: 1;
+          border: none !important;
+          overflow: hidden;
+      }
+      .quill-editor-container .ql-editor {
+          height: 100%;
+          overflow-y: auto;
+      }
+
+      .ql-editor {
+        font-size: 1rem;
+        background-color: #f1f5f9; /* bg-slate-100 */
+        color: #1e293b; /* text-slate-800 */
+      }
+      .dark .ql-editor {
+        background-color: #334155; /* dark:bg-slate-700 */
+        color: #f8fafc; /* dark:text-slate-50 */
+      }
+      .dark .ql-toolbar {
+        background-color: #475569; /* dark:bg-slate-600 */
+        border-color: #64748b !important; /* dark:border-slate-500 */
+      }
+       .dark .quill-editor-container .ql-toolbar {
+          border-bottom-color: #64748b !important;
+      }
+      .dark .ql-toolbar .ql-picker-label, .dark .ql-toolbar .ql-stroke, .dark .ql-toolbar .ql-fill {
+         stroke: #f8fafc !important;
+         color: #f8fafc !important;
+      }
+      
+      /* Responsive Quill Toolbar for smaller screens */
+      @media (max-width: 768px) {
+        .ql-toolbar {
+          overflow-x: auto;
+          white-space: nowrap;
+          padding-bottom: 8px; /* Add some space for the scrollbar */
+        }
+      }
+    </style>
+  <script type="importmap">
+{
+  "imports": {
+    "react": "https://aistudiocdn.com/react@^19.1.1",
+    "react/": "https://aistudiocdn.com/react@^19.1.1/",
+    "react-dom/": "https://aistudiocdn.com/react-dom@^19.1.1/"
+  }
+}
+</script>
+</head>
+  <body>
+    <noscript>You need to enable JavaScript to run this app.</noscript>
+    <div id="root"></div>
+    <script type="module" src="/index.tsx"></script>
+  </body>
+</html>
