@@ -15,6 +15,7 @@ import { IQAMAH_PRAYERS } from './constants';
 import { parseTimeToDate } from './utils';
 import { t } from './i18n';
 import { WelcomeModal } from './components/WelcomeModal';
+import { db } from './lib/db';
 
 // This component isolates all the logic that needs to update every second.
 // By doing this, the parent component (AppContent) and its other children (Header, Footer)
@@ -284,6 +285,46 @@ const TimeSensitiveContent: React.FC<{ prayerTimes: PrayerTimes | null, stale: b
     );
 };
 
+// This component centralizes the logic for applying global theme settings (dark/light mode, accent color)
+// to the documentElement. It ensures that the theme is applied consistently across all views,
+// including modals and separate pages like Settings, fixing visual inconsistencies.
+const GlobalThemeApplicator: React.FC = () => {
+    const { settings } = useSettings();
+
+    // Utility to convert hex to rgba for the glow effect, handles 3- and 6-digit hex.
+    const hexToRgba = (hex: string, alpha: number) => {
+        let c: any;
+        if (/^#([A-Fa-f0-9]{3}){1,2}$/.test(hex)) {
+            c = hex.substring(1).split('');
+            if (c.length === 3) {
+                c = [c[0], c[0], c[1], c[1], c[2], c[2]];
+            }
+            c = '0x' + c.join('');
+            return `rgba(${[(c >> 16) & 255, (c >> 8) & 255, c & 255].join(',')},${alpha})`;
+        }
+        return `rgba(139, 92, 246, ${alpha})`; // Return default purple if invalid
+    };
+
+    useEffect(() => {
+        const root = document.documentElement;
+        if (settings.theme === 'dark') {
+            root.classList.add('dark');
+        } else {
+            root.classList.remove('dark');
+        }
+
+        if (settings.accentColor) {
+            root.style.setProperty('--accent-color', settings.accentColor);
+            root.style.setProperty('--accent-glow-color', hexToRgba(settings.accentColor, 0.5));
+        } else {
+             root.style.setProperty('--accent-color', '#8B5CF6'); // Default purple
+             root.style.setProperty('--accent-glow-color', 'rgba(139, 92, 246, 0.5)');
+        }
+    }, [settings.theme, settings.accentColor]);
+
+    return null; // This component does not render anything itself
+};
+
 // This component handles the per-second background update.
 // It accepts children which it will not re-render unless they change.
 const DynamicBackgroundView: React.FC<{ 
@@ -292,14 +333,6 @@ const DynamicBackgroundView: React.FC<{
 }> = ({ children, prayerTimes }) => {
     const { settings } = useSettings();
     const { currentTime } = useClock();
-
-    // Utility to convert hex to rgba for the glow effect
-    const hexToRgba = (hex: string, alpha: number) => {
-        const r = parseInt(hex.slice(1, 3), 16);
-        const g = parseInt(hex.slice(3, 5), 16);
-        const b = parseInt(hex.slice(5, 7), 16);
-        return `rgba(${r}, ${g}, ${b}, ${alpha})`;
-    };
 
     const activeWallpaper = useMemo(() => {
         if (!settings.enableContextualWallpapers || !prayerTimes) {
@@ -337,23 +370,6 @@ const DynamicBackgroundView: React.FC<{
         return settings.contextualWallpapers[currentPrayerPeriod as keyof typeof settings.contextualWallpapers] || settings.wallpaper;
     }, [currentTime, prayerTimes, settings]);
 
-
-    useEffect(() => {
-        const root = document.documentElement;
-        if (settings.theme === 'dark') {
-            root.classList.add('dark');
-        } else {
-            root.classList.remove('dark');
-        }
-
-        if (settings.accentColor) {
-            root.style.setProperty('--accent-color', settings.accentColor);
-            root.style.setProperty('--accent-glow-color', hexToRgba(settings.accentColor, 0.5));
-        } else {
-             root.style.setProperty('--accent-color', '#8B5CF6'); // Default purple
-             root.style.setProperty('--accent-glow-color', 'rgba(139, 92, 246, 0.5)');
-        }
-    }, [settings.theme, settings.accentColor]);
 
     const backgroundStyle = useMemo(() => ({
         backgroundImage: activeWallpaper ? `url(${activeWallpaper})` : 'none',
@@ -405,23 +421,29 @@ const AppContent = () => {
     const { prayerTimes, stale } = usePrayerTimes();
     const { language } = useLanguage();
     const [showWelcomeModal, setShowWelcomeModal] = useState(false);
+    const [loading, setLoading] = useState(true);
 
     useEffect(() => {
-        try {
-            const hasSeenWelcome = localStorage.getItem('waqti-has-seen-welcome');
-            if (!hasSeenWelcome) {
-                setShowWelcomeModal(true);
+        const checkWelcomeStatus = async () => {
+            try {
+                const hasSeenWelcome = await db.appState.get('hasSeenWelcome');
+                if (!hasSeenWelcome) {
+                    setShowWelcomeModal(true);
+                }
+            } catch (error) {
+                console.error("Could not access IndexedDB", error);
+            } finally {
+                setLoading(false);
             }
-        } catch (error) {
-            console.error("Could not access localStorage", error);
-        }
+        };
+        checkWelcomeStatus();
     }, []);
 
-    const handleCloseWelcome = () => {
+    const handleCloseWelcome = async () => {
         try {
-            localStorage.setItem('waqti-has-seen-welcome', 'true');
+            await db.appState.put({ key: 'hasSeenWelcome', value: true });
         } catch (error) {
-             console.error("Could not set item in localStorage", error);
+             console.error("Could not set item in IndexedDB", error);
         }
         setShowWelcomeModal(false);
     };
@@ -440,6 +462,10 @@ const AppContent = () => {
     // This key forces a re-render of child components when language changes,
     // ensuring all text is updated correctly.
     const key = useMemo(() => language, [language]);
+
+    if (loading) {
+        return <div className="min-h-screen w-full flex items-center justify-center bg-gray-900 text-white">Initializing...</div>;
+    }
 
     if (showWelcomeModal) {
         return <WelcomeModal onClose={handleCloseWelcome} onGoToGuide={handleGoToGuide} />;
@@ -467,6 +493,7 @@ const AppContent = () => {
 const App = () => (
     <LanguageProvider>
         <SettingsProvider>
+            <GlobalThemeApplicator />
             <AppContent />
         </SettingsProvider>
     </LanguageProvider>

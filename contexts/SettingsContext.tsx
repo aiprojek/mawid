@@ -2,6 +2,7 @@ import React, { createContext, useContext, useState, useEffect, useCallback, Rea
 import type { Settings } from '../types';
 import { getDefaultSettings, IQAMAH_PRAYERS } from '../constants';
 import { useLanguage } from './LanguageContext';
+import { db } from '../lib/db';
 
 interface SettingsContextType {
     settings: Settings;
@@ -13,132 +14,106 @@ const SettingsContext = createContext<SettingsContextType | undefined>(undefined
 
 export const SettingsProvider: React.FC<{ children: ReactNode }> = ({ children }) => {
     const { language } = useLanguage();
+    const [settings, setSettings] = useState<Settings | null>(null);
+    const [loading, setLoading] = useState(true);
     
-    // Generate language-specific default settings
-    const DEFAULT_SETTINGS = getDefaultSettings(language);
-
-    const [settings, setSettings] = useState<Settings>(() => {
-        try {
-            let savedSettings = localStorage.getItem('waqtiPrayerTimesSettings');
-            // Migration from old key
-            if (!savedSettings) {
-                const oldSettings = localStorage.getItem('prayerTimesSettings');
-                if (oldSettings) {
-                    savedSettings = oldSettings;
-                    localStorage.setItem('waqtiPrayerTimesSettings', oldSettings);
-                    localStorage.removeItem('prayerTimesSettings');
-                }
-            }
-
-            if (savedSettings) {
-                const parsed = JSON.parse(savedSettings);
-
-                // --- Migration Logic for prayerDuration ---
-                if (parsed.prayerDuration && !parsed.prayerDurations) {
-                    parsed.prayerDurations = {};
-                    IQAMAH_PRAYERS.forEach(p => {
-                        parsed.prayerDurations[p] = parsed.prayerDuration;
-                    });
-                    delete parsed.prayerDuration; // Remove the old key
-                }
-
-                // --- Migration Logic for slides ---
-                if (parsed.slides && Array.isArray(parsed.slides)) {
-                    let needsSlideMigration = false;
-                    if (parsed.slides.length > 0 && (parsed.slides[0].enabled === undefined || parsed.slides[0].duration === undefined)) {
-                        needsSlideMigration = true;
-                    }
-
-                    if (needsSlideMigration) {
-                        const defaultDuration = parsed.slideInterval || 15;
-                        parsed.slides = parsed.slides.map((slide: any) => ({
-                            ...slide,
-                            enabled: slide.enabled === undefined ? true : slide.enabled,
-                            duration: slide.duration === undefined ? defaultDuration : slide.duration,
-                            type: slide.type || 'text', // Ensure type exists
-                        }));
-                    }
-                     // Clean up old properties from slides
-                    parsed.slides = parsed.slides.map((slide: any) => {
-                        if (slide.textAlign) delete slide.textAlign;
-                        return slide;
-                    });
+    useEffect(() => {
+        const loadAndMigrateSettings = async () => {
+            let finalSettings: Settings | null = null;
+            const DEFAULT_SETTINGS = getDefaultSettings(language);
+            
+            // 1. Coba dapatkan dari IndexedDB
+            const settingsFromDB = await db.settings.get(1);
+            if (settingsFromDB) {
+                // Hapus properti 'id' sebelum menggabungkan
+                const { id, ...restOfSettings } = settingsFromDB;
+                // Gabungkan dengan default untuk memastikan semua kunci ada
+                finalSettings = { ...DEFAULT_SETTINGS, ...restOfSettings };
+            } else {
+                // 2. Jika tidak ada, coba migrasi dari localStorage
+                let settingsFromLS = localStorage.getItem('waqtiPrayerTimesSettings');
+                if (!settingsFromLS) {
+                     settingsFromLS = localStorage.getItem('prayerTimesSettings'); // Kunci lama
                 }
                 
-                // Remove old global interval setting
-                if (parsed.slideInterval) {
-                    delete parsed.slideInterval;
-                }
+                if (settingsFromLS) {
+                    try {
+                        console.log("Migrating settings from localStorage to IndexedDB...");
+                        const parsed = JSON.parse(settingsFromLS);
 
-
-                // --- Migration Logic for runningText ---
-                if (parsed.runningText && typeof parsed.runningText === 'string' && !parsed.customTexts) {
-                    parsed.customTexts = [{ id: 'migrated-1', content: parsed.runningText }];
-                    delete parsed.runningText;
+                        // --- Jalankan logika migrasi yang ada ---
+                        if (parsed.prayerDuration && !parsed.prayerDurations) {
+                            parsed.prayerDurations = {};
+                            IQAMAH_PRAYERS.forEach(p => {
+                                parsed.prayerDurations[p] = parsed.prayerDuration;
+                            });
+                            delete parsed.prayerDuration;
+                        }
+                        if (parsed.slides && Array.isArray(parsed.slides)) {
+                             parsed.slides = parsed.slides.map((slide: any) => {
+                                if (slide.textAlign) delete slide.textAlign;
+                                return {
+                                    ...slide,
+                                    enabled: slide.enabled === undefined ? true : slide.enabled,
+                                    duration: slide.duration === undefined ? (parsed.slideInterval || 15) : slide.duration,
+                                    type: slide.type || 'text',
+                                };
+                            });
+                        }
+                        if (parsed.slideInterval) delete parsed.slideInterval;
+                        if (parsed.runningText && typeof parsed.runningText === 'string' && !parsed.customTexts) {
+                            parsed.customTexts = [{ id: 'migrated-1', content: parsed.runningText }];
+                            delete parsed.runningText;
+                        }
+                        if (parsed.runningTextMode === 'static') parsed.runningTextMode = 'custom';
+                        if (!parsed.dhikrList || !Array.isArray(parsed.dhikrList)) {
+                            parsed.dhikrList = DEFAULT_SETTINGS.dhikrList;
+                            parsed.selectedDhikr = DEFAULT_SETTINGS.selectedDhikr;
+                        }
+                        
+                        const migratedSettings = { ...DEFAULT_SETTINGS, ...parsed };
+                        
+                        // Simpan ke IndexedDB
+                        await db.settings.put({ ...migratedSettings, id: 1 });
+                        
+                        // Hapus dari localStorage
+                        localStorage.removeItem('waqtiPrayerTimesSettings');
+                        localStorage.removeItem('prayerTimesSettings');
+                        
+                        finalSettings = migratedSettings;
+                        console.log("Migration successful.");
+                    } catch (e) {
+                        console.error("Failed to migrate settings from localStorage", e);
+                    }
                 }
-                if (parsed.runningTextMode === 'static') {
-                    parsed.runningTextMode = 'custom';
-                }
-
-                // --- NEW Migration for custom Dhikr ---
-                // If the new dhikrList doesn't exist, it means we're on an old version.
-                // We'll replace the old dhikr settings with the new default structure.
-                if (!parsed.dhikrList || !Array.isArray(parsed.dhikrList)) {
-                    parsed.dhikrList = DEFAULT_SETTINGS.dhikrList;
-                    parsed.selectedDhikr = DEFAULT_SETTINGS.selectedDhikr;
-                }
-                
-                // Merge loaded settings with defaults to ensure all keys are present
-                const mergedSettings = { 
-                    ...DEFAULT_SETTINGS, 
-                    ...parsed,
-                    iqamahOffsets: {
-                        ...DEFAULT_SETTINGS.iqamahOffsets,
-                        ...(parsed.iqamahOffsets || {}),
-                    },
-                    adjustments: {
-                        ...DEFAULT_SETTINGS.adjustments,
-                        ...(parsed.adjustments || {}),
-                    },
-                     prayerDurations: {
-                        ...DEFAULT_SETTINGS.prayerDurations,
-                        ...(parsed.prayerDurations || {}),
-                    },
-                    contextualWallpapers: {
-                        ...DEFAULT_SETTINGS.contextualWallpapers,
-                        ...(parsed.contextualWallpapers || {}),
-                    },
-                };
-                return mergedSettings;
             }
-        } catch (error) {
-            console.error("Failed to load settings from localStorage", error);
-        }
-        return DEFAULT_SETTINGS;
-    });
+            
+            // 3. Jika masih belum ada pengaturan, gunakan default
+            if (!finalSettings) {
+                console.log("No existing settings found, using defaults.");
+                finalSettings = DEFAULT_SETTINGS;
+                await db.settings.put({ ...finalSettings, id: 1 });
+            }
+            
+            setSettings(finalSettings);
+            setLoading(false);
+        };
+    
+        loadAndMigrateSettings();
+    }, [language]);
 
-    const saveSettings = useCallback((newSettings: Settings) => {
+    const saveSettings = useCallback(async (newSettings: Settings) => {
         try {
-            const settingsString = JSON.stringify(newSettings);
-            localStorage.setItem('waqtiPrayerTimesSettings', settingsString);
-            setSettings(newSettings);
+            await db.settings.put({ ...newSettings, id: 1 });
+            setSettings(newSettings); // Update state lokal
         } catch (error) {
-            console.error("Failed to save settings to localStorage", error);
+            console.error("Failed to save settings to IndexedDB", error);
         }
     }, []);
 
-    // Effect to update settings if language changes and no settings are saved yet
-    useEffect(() => {
-        const savedSettings = localStorage.getItem('waqtiPrayerTimesSettings');
-        if (!savedSettings) {
-            setSettings(getDefaultSettings(language));
-        }
-    }, [language]);
-
-
-    useEffect(() => {
-        saveSettings(settings);
-    }, [settings, saveSettings]);
+    if (loading || !settings) {
+        return <div className="min-h-screen w-full flex items-center justify-center bg-gray-900 text-white">Loading Settings...</div>;
+    }
 
     return (
         <SettingsContext.Provider value={{ settings, setSettings, saveSettings }}>

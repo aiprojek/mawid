@@ -3,6 +3,7 @@ import type { PrayerTimes } from '../types';
 import { useSettings } from '../contexts/SettingsContext';
 import { PRAYER_NAMES } from '../constants';
 import { t } from '../i18n';
+import { db } from '../lib/db';
 
 const usePrayerTimes = () => {
     const { settings } = useSettings();
@@ -21,7 +22,6 @@ const usePrayerTimes = () => {
                 return;
             }
 
-            // UX Improvement: Indicate that data is being refreshed, but don't clear old data
             if (prayerTimes) {
                 setStale(true);
             } else {
@@ -31,26 +31,22 @@ const usePrayerTimes = () => {
 
             const now = new Date();
             const year = now.getFullYear();
-            const month = now.getMonth() + 1; // getMonth() is 0-indexed
+            const month = now.getMonth() + 1;
             const day = now.getDate();
 
             const cacheKey = `prayerTimesCache-${settings.city}-${year}-${month}`;
 
             try {
-                // 1. Coba dapatkan dari cache terlebih dahulu
-                const cachedData = localStorage.getItem(cacheKey);
+                // 1. Coba dapatkan dari cache IndexedDB terlebih dahulu
+                const cachedEntry = await db.prayerTimesCache.get(cacheKey);
                 let monthlyData: any[] | null = null;
 
-                if (cachedData) {
-                    monthlyData = JSON.parse(cachedData);
+                if (cachedEntry) {
+                    monthlyData = cachedEntry.data;
                 } else {
                     // 2. Jika tidak ada di cache, ambil dari API
                     // Bersihkan cache lama sebelum mengambil yang baru
-                    Object.keys(localStorage).forEach(key => {
-                        if (key.startsWith('prayerTimesCache-')) {
-                            localStorage.removeItem(key);
-                        }
-                    });
+                    await db.prayerTimesCache.clear();
 
                     const tuneString = PRAYER_NAMES.map(name => settings.adjustments[name] || 0).join(',');
                     let apiUrl = `https://api.aladhan.com/v1/calendarByCity?city=${settings.city}&country=Indonesia&method=${settings.calculationMethod}&month=${month}&year=${year}&school=${settings.madhab}&latitudeAdjustmentMethod=${settings.highLatitudeRule}&tune=${tuneString}`;
@@ -68,7 +64,7 @@ const usePrayerTimes = () => {
 
                     if (data.code === 200 && data.data) {
                         monthlyData = data.data;
-                        localStorage.setItem(cacheKey, JSON.stringify(monthlyData));
+                        await db.prayerTimesCache.put({ key: cacheKey, data: monthlyData });
                     } else {
                         throw new Error(data.data || data.status || 'Could not fetch prayer times.');
                     }
@@ -93,11 +89,10 @@ const usePrayerTimes = () => {
                 }
             } catch (err) {
                  // Jika terjadi error (misal, offline), coba gunakan cache lama jika ada
-                const anyCache = Object.keys(localStorage).find(key => key.startsWith('prayerTimesCache-'));
-                if (anyCache && localStorage.getItem(anyCache)) {
+                const anyCache = await db.prayerTimesCache.toCollection().first();
+                if (anyCache) {
                     try {
-                        const oldMonthlyData = JSON.parse(localStorage.getItem(anyCache)!);
-                        // Coba temukan hari ini di cache lama (mungkin tidak ada)
+                        const oldMonthlyData = anyCache.data;
                         const todayInOldData = oldMonthlyData?.find((d: any) => parseInt(d.date.gregorian.day, 10) === day && parseInt(d.date.gregorian.month.number, 10) === month);
                          if (todayInOldData) {
                             const timings = todayInOldData.timings;
@@ -112,7 +107,7 @@ const usePrayerTimes = () => {
                             setPrayerTimes(formattedTimes);
                             setError(t('main.error'));
                         } else {
-                             throw err; // Lemparkan error asli jika hari ini tidak ada di cache lama
+                             throw err;
                         }
                     } catch (finalError) {
                          if (err instanceof Error) {
@@ -136,17 +131,11 @@ const usePrayerTimes = () => {
             }
         };
 
-        fetchPrayerTimes();
+        if (settings) {
+            fetchPrayerTimes();
+        }
     }, [
-        settings.city, 
-        settings.calculationMethod, 
-        settings.useManualTimes, 
-        settings.manualPrayerTimes,
-        settings.madhab,
-        settings.highLatitudeRule,
-        settings.fajrAngle,
-        settings.ishaAngle,
-        settings.adjustments
+        settings, // Depend on the whole settings object to refetch when any relevant setting changes
     ]);
 
     return { prayerTimes, loading, error, stale };

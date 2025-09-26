@@ -71,6 +71,7 @@ Nama Waqti (وقتي) berarti "Waktuku", menekankan hubungan yang personal denga
 - **API Waktu Shalat:** [Al-Adhan API](https://aladhan.com/prayer-times-api)
 - **Offline & PWA:** Service Worker
 - **Manajemen State:** React Context API
+- **Penyimpanan Data:** IndexedDB dengan [Dexie.js](https://dexie.org/)
 - **Editor Teks:** Quill.js
 - **Grafik:** Recharts
 
