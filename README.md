@@ -46,23 +46,29 @@ Nama Waqti (وقتي) berarti "Waktuku", menekankan hubungan yang personal denga
 
 ## Fitur Utama
 
-- **Waktu Shalat Otomatis:** Menghitung waktu shalat secara akurat berdasarkan kota dan metode kalkulasi yang dipilih.
-- **Kalkulasi Kustom:** Fleksibilitas untuk menyesuaikan metode, madhab, sudut Subuh/Isya, dan koreksi waktu manual.
-- **Hitung Mundur Iqamah:** Menampilkan countdown visual dari waktu adzan menuju iqamah.
-- **Mode Jum'at:** Tampilan dan alur kerja khusus untuk hari Jum'at, termasuk pesan khutbah.
-- **Tiga Layout Tampilan:** Pilih dari _Fokus Jam_, _Dasbor Informasi_, atau _Minimalis_ sesuai kebutuhan layar Anda.
-- **Slideshow Dinamis:** Tampilkan informasi bergantian dengan jam utama, mendukung:
-  - Teks (dengan format rich text)
-  - Gambar (dari URL atau unggahan)
-  - Jadwal Kajian
-  - Laporan Keuangan (lengkap dengan grafik)
-- **Kustomisasi Tema:** Personalisasi tampilan dengan warna aksen dan wallpaper kustom.
-- **Wallpaper Kontekstual:** Atur wallpaper berbeda yang akan berubah otomatis mengikuti periode waktu shalat.
-- **Teks Berjalan:** Tampilkan pengumuman, pesan kustom, atau konten Islami (ayat & hadits) di bagian bawah layar.
-- **Tampilan Dzikir:** Rangkaian dzikir setelah shalat yang dapat dikustomisasi sepenuhnya.
-- **Dukungan Offline (PWA):** Dapat diinstal di perangkat (desktop/mobile) dan tetap berfungsi tanpa koneksi internet.
-- **Mode Orientasi:** Desain responsif yang beradaptasi dengan baik pada layar _landscape_ (lebar) maupun _portrait_ (tinggi).
-- **Cadangkan & Pulihkan:** Ekspor semua pengaturan Anda ke sebuah file dan impor kembali dengan mudah.
+- **Waktu Shalat Otomatis:** Menghitung waktu shalat secara akurat berdasarkan kota dan metode kalkulasi yang dipilih dari berbagai lembaga internasional.
+- **Kustomisasi Kalkulasi Mendalam:** Fleksibilitas penuh untuk menyesuaikan metode perhitungan, madhab (untuk waktu Asar), aturan lintang tinggi, hingga mengatur sudut Subuh & Isya secara manual.
+- **Koreksi Manual & Iqamah:** Atur koreksi waktu (maju/mundur) per shalat dalam hitungan menit, dan tentukan durasi jeda menuju iqamah untuk setiap waktu shalat.
+- **Mode Jum'at Cerdas:** Alur kerja khusus untuk hari Jum'at, termasuk kemampuan untuk mengikuti waktu Zuhur atau mengatur waktu manual, serta menampilkan pesan khutbah yang dapat disesuaikan.
+- **Tiga Layout Tampilan Utama:**
+    - **Fokus Jam:** Tampilan jam digital besar yang jelas dan mudah dibaca dari jauh.
+    - **Dasbor Informasi:** Tampilan multifungsi yang menampilkan jam, jadwal shalat, serta ringkasan jadwal kajian dan keuangan.
+    - **Minimalis:** Desain sederhana yang hanya menyorot jam utama dan shalat berikutnya.
+- **Slideshow Dinamis & Serbaguna:** Tampilkan informasi penting yang bergantian dengan jam utama. Mendukung empat jenis slide:
+    - **Teks:** Tampilkan pengumuman atau kutipan dengan editor *rich text*.
+    - **Gambar:** Tampilkan gambar dari URL atau unggah langsung dari perangkat.
+    - **Jadwal Kajian:** Buat daftar jadwal kajian atau kegiatan masjid yang rapi.
+    - **Laporan Keuangan:** Sajikan laporan keuangan kas masjid secara transparan, lengkap dengan grafik visual pemasukan dan pengeluaran.
+- **Personalisasi Visual:**
+    - **Tema Gelap & Terang:** Sesuaikan tema sesuai kondisi pencahayaan.
+    - **Warna Aksen:** Pilih warna sorotan utama untuk menyesuaikan dengan identitas visual masjid atau selera pribadi.
+    - **Wallpaper Kustom:** Ganti gambar latar belakang utama melalui URL atau unggah gambar.
+- **Wallpaper Kontekstual:** Atur wallpaper berbeda untuk setiap periode waktu shalat (Subuh, Zuhur, Asar, Magrib, Isya) yang akan berubah secara otomatis.
+- **Teks Berjalan Informatif:** Tampilkan pengumuman, pesan kustom, atau konten Islami (ayat Al-Qur'an & hadits pilihan) yang bergerak di bagian bawah layar.
+- **Tampilan Dzikir Kustom:** Rangkaian dzikir setelah shalat yang dapat diaktifkan, diurutkan, ditambah, atau dikurangi sesuai keinginan.
+- **Dukungan Offline (PWA):** Aplikasi dapat diinstal di desktop atau perangkat mobile dan akan tetap berfungsi sepenuhnya (termasuk jadwal shalat dan slide) bahkan tanpa koneksi internet.
+- **Mode Orientasi Responsif:** Desain antarmuka yang beradaptasi secara otomatis untuk tampilan _landscape_ (layar lebar) maupun _portrait_ (layar tinggi).
+- **Manajemen Data Mudah:** Ekspor semua pengaturan Anda ke dalam sebuah file untuk dicadangkan, dan impor kembali dengan satu klik untuk memulihkan atau memindahkan konfigurasi ke perangkat lain.
 
 ## Tumpukan Teknologi
 
