@@ -1,8 +1,12 @@
 import React, { createContext, useContext, useState, useEffect, useCallback, ReactNode } from 'react';
-import type { Settings } from '../types';
-import { getDefaultSettings, IQAMAH_PRAYERS } from '../constants';
+import type { Settings, Slide } from '../types';
+import { getDefaultSettings, IQAMAH_PRAYERS, getDefaultFridaySlides } from '../constants';
 import { useLanguage } from './LanguageContext';
 import { db } from '../lib/db';
+import { en } from '../i18n/locales/en';
+// FIX: Aliased the 'id' import to 'idLocale' to prevent variable shadowing from 'const { id, ... }' below.
+import { id as idLocale } from '../i18n/locales/id';
+
 
 interface SettingsContextType {
     settings: Settings;
@@ -25,10 +29,62 @@ export const SettingsProvider: React.FC<{ children: ReactNode }> = ({ children }
             // 1. Coba dapatkan dari IndexedDB
             const settingsFromDB = await db.settings.get(1);
             if (settingsFromDB) {
-                // Hapus properti 'id' sebelum menggabungkan
-                const { id, ...restOfSettings } = settingsFromDB;
-                // Gabungkan dengan default untuk memastikan semua kunci ada
-                finalSettings = { ...DEFAULT_SETTINGS, ...restOfSettings };
+                const { id, ...savedSettings } = settingsFromDB;
+
+                // --- SMART MERGE LOGIC TO HANDLE LANGUAGE CHANGE ---
+                
+                // 1. Handle default translatable strings like khutbah title
+                const enKhutbahTitle = en.defaults.khutbah.title;
+                const idKhutbahTitle = idLocale.defaults.khutbah.title;
+                if (savedSettings.khutbahMessageTitle === enKhutbahTitle || savedSettings.khutbahMessageTitle === idKhutbahTitle) {
+                    savedSettings.khutbahMessageTitle = DEFAULT_SETTINGS.khutbahMessageTitle;
+                }
+
+                const enKhutbahTagline = en.defaults.khutbah.tagline;
+                const idKhutbahTagline = idLocale.defaults.khutbah.tagline;
+                if (savedSettings.khutbahMessageTagline === enKhutbahTagline || savedSettings.khutbahMessageTagline === idKhutbahTagline) {
+                    savedSettings.khutbahMessageTagline = DEFAULT_SETTINGS.khutbahMessageTagline;
+                }
+                
+                // 2. Handle default translatable slides
+                const defaultSlidesId = getDefaultFridaySlides('id');
+                const defaultSlidesEn = getDefaultFridaySlides('en');
+                const defaultSlidesIdMap = new Map(defaultSlidesId.map(s => [s.id, s]));
+                const defaultSlidesEnMap = new Map(defaultSlidesEn.map(s => [s.id, s]));
+                const defaultSlidesCurrentLang = getDefaultFridaySlides(language);
+
+                const savedSlides = savedSettings.slides || [];
+                const finalSlides: Slide[] = [];
+
+                // Process default slides first to maintain order
+                for (const defaultSlide of defaultSlidesCurrentLang) {
+                    const savedVersion = savedSlides.find(s => s.id === defaultSlide.id);
+                    if (savedVersion) {
+                        const defaultIdVersion = defaultSlidesIdMap.get(savedVersion.id);
+                        const defaultEnVersion = defaultSlidesEnMap.get(savedVersion.id);
+                        
+                        // FIX: Added type checks to ensure we only access 'content' and 'title' on 'text' slides.
+                        const isUnmodifiedId = defaultIdVersion && savedVersion.type === 'text' && defaultIdVersion.type === 'text' && savedVersion.content === defaultIdVersion.content && savedVersion.title === defaultIdVersion.title;
+                        const isUnmodifiedEn = defaultEnVersion && savedVersion.type === 'text' && defaultEnVersion.type === 'text' && savedVersion.content === defaultEnVersion.content && savedVersion.title === defaultEnVersion.title;
+
+                        if (isUnmodifiedId || isUnmodifiedEn) {
+                            finalSlides.push(defaultSlide); // Use freshly translated version
+                        } else {
+                            finalSlides.push(savedVersion); // Use user-modified version
+                        }
+                    } else {
+                        finalSlides.push(defaultSlide); // Add new default slide if not in saved data
+                    }
+                }
+
+                // Add user-created slides at the end
+                const userAddedSlides = savedSlides.filter(s => !s.id.startsWith('friday-slide-'));
+                finalSlides.push(...userAddedSlides);
+                
+                savedSettings.slides = finalSlides;
+                
+                finalSettings = { ...DEFAULT_SETTINGS, ...savedSettings };
+
             } else {
                 // 2. Jika tidak ada, coba migrasi dari localStorage
                 let settingsFromLS = localStorage.getItem('waqtiPrayerTimesSettings');

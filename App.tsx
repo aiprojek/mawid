@@ -381,7 +381,7 @@ const DynamicBackgroundView: React.FC<{
         <div 
             style={backgroundStyle} 
             className={`
-                min-h-screen font-sans text-slate-800 dark:text-white 
+                h-screen font-sans text-slate-800 dark:text-white 
                 bg-gray-100 dark:bg-gradient-to-br dark:from-gray-900 dark:via-slate-800 dark:to-gray-900 
                 transition-colors duration-500 w-full relative
                 ${settings.enableBackgroundAnimation ? 'animate-aurora' : ''}
@@ -389,7 +389,7 @@ const DynamicBackgroundView: React.FC<{
         >
             <div className="absolute inset-0 bg-black/20 z-0"></div>
             
-            <div className="relative z-10 min-h-screen flex flex-col w-full">
+            <div className="relative z-10 h-full flex flex-col w-full">
                  {children}
             </div>
         </div>
@@ -404,10 +404,11 @@ const MainViewLayout: React.FC<{
     onSettingsClick: () => void; 
     onInfoClick: () => void;
 }> = React.memo(({ prayerTimes, stale, onSettingsClick, onInfoClick }) => {
+    const { settings } = useSettings();
     return (
         <>
             <AppHeader onSettingsClick={onSettingsClick} onInfoClick={onInfoClick} />
-            <main className="flex-grow flex flex-col p-4 gap-4 md:gap-8 relative justify-center items-center">
+            <main className={`flex-grow flex flex-col min-h-0 p-4 gap-4 md:gap-8 relative ${settings.layoutTemplate !== 'dashboard-info' ? 'justify-center items-center' : ''}`}>
                  <TimeSensitiveContent prayerTimes={prayerTimes} stale={stale} />
             </main>
             <Footer />

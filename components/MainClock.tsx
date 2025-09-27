@@ -179,9 +179,14 @@ export const MainClock: React.FC<MainClockProps> = (props) => {
         }
     };
 
+    const layoutSpecificClasses = settings.layoutTemplate === 'dashboard-info'
+        ? 'justify-start items-stretch h-full' // For dashboard, align top, stretch items, and ensure full height
+        : 'justify-center items-center h-full'; // For other layouts, center everything
+
     return (
         <div 
-            className={`flex flex-col items-center justify-center w-full h-full p-4 transition-all duration-500 ease-in-out transform
+            className={`flex flex-col w-full p-4 transition-all duration-500 ease-in-out transform
+                ${layoutSpecificClasses}
                 ${displayState === internalDisplayState ? 'opacity-100 scale-100' : 'opacity-0 scale-95'}
             `}
         >

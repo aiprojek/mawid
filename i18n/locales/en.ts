@@ -223,7 +223,8 @@ export const en = {
         title: 'About & Guide',
         tabs: {
             about: 'About App',
-            guide: 'User Guide'
+            guide: 'User Guide',
+            contact: 'Contact'
         },
         about: {
             appName: "Waqti",
@@ -242,51 +243,80 @@ export const en = {
             intro: 'Here is an explanation of each available setting to help you customize the application according to your needs.',
             general: {
                 title: 'General Settings',
-                content: `
-- Mosque Name: The name displayed on the main screen.
-- Language: Changes the application's interface language.
-- City: Determines the prayer time calculations. The app will fetch data from the internet based on this city.
-- Data Management: You can export all current settings into a .json file as a backup or to move them to another device. Use import to restore from that file.`
+                content: `<ul>
+<li><strong>Mosque Name:</strong> The name displayed on the main screen.</li>
+<li><strong>Language:</strong> Changes the application's interface language.</li>
+<li><strong>City:</strong> Determines the prayer time calculations. The app will fetch data from the internet based on this city.</li>
+<li><strong>Data Management:</strong> You can export all current settings into a <code>.json</code> file as a backup or to move them to another device. Use import to restore from that file.</li>
+</ul>`
             },
             calculation: {
                 title: 'Calculation Settings',
-                content: `
-- Calculation Method: Choose the institution for prayer time calculation (e.g., Ministry of Religious Affairs of Indonesia). Select 'Custom' to set your own Fajr and Isha angles.
-- Madhab: Affects the Asr prayer time calculation. 'Standard' is for Shafii, Maliki, Hanbali, while 'Hanafi' has a later time.
-- Time Corrections: Manually add or subtract minutes for each prayer time if you find a discrepancy with your local mosque.
-- Iqamah Delay: Sets the countdown duration from the adhan to the iqamah for each prayer.`
+                content: `<ul>
+<li><strong>Calculation Method:</strong> Choose the institution for prayer time calculation (e.g., Ministry of Religious Affairs of Indonesia). Select 'Custom' to set your own Fajr and Isha angles.</li>
+<li><strong>Madhab:</strong> Affects the Asr prayer time calculation. 'Standard' is for Shafii, Maliki, Hanbali, while 'Hanafi' has a later time.</li>
+<li><strong>Time Corrections:</strong> Manually add or subtract minutes for each prayer time if you find a discrepancy with your local mosque.</li>
+<li><strong>Iqamah Delay:</strong> Sets the countdown duration from the adhan to the iqamah for each prayer.</li>
+</ul>`
             },
             display: {
                 title: 'Display Settings',
-                content: `
-- Theme: Choose between a dark or light appearance.
-- Orientation Mode: 'Landscape' is suitable for wide screens (monitors), 'Portrait' is for tall screens. This affects the layout.
-- Display Layout Template: Select the main screen appearance. 'Focus Clock' is large and clear, 'Information Dashboard' shows various info, and 'Minimalist' is simple.
-- Accent Color: The primary color used for highlights, buttons, and the next prayer time marker.
-- Wallpaper: Set the background image for the main screen, either via URL or by uploading an image.
-- Contextual Wallpaper: If enabled, the wallpaper will change automatically based on the current prayer time period (e.g., a different image for Fajr, Dhuhr, etc.).
-- Running Text: Display a moving text at the bottom of the screen. 'Custom' mode uses text you write, while 'Themed' mode randomly selects from Quranic verses or hadiths.`
+                content: `<ul>
+<li><strong>Theme:</strong> Choose between a dark or light appearance.</li>
+<li><strong>Orientation Mode:</strong> 'Landscape' is suitable for wide screens (monitors), 'Portrait' is for tall screens. This affects the layout.</li>
+<li><strong>Display Layout Template:</strong> Select the main screen appearance. 'Focus Clock' is large and clear, 'Information Dashboard' shows various info, and 'Minimalist' is simple.</li>
+<li><strong>Accent Color:</strong> The primary color used for highlights, buttons, and the next prayer time marker.</li>
+<li><strong>Wallpaper:</strong> Set the background image for the main screen, either via URL or by uploading an image.</li>
+<li><strong>Contextual Wallpaper:</strong> If enabled, the wallpaper will change automatically based on the current prayer time period (e.g., a different image for Fajr, Dhuhr, etc.).</li>
+<li><strong>Running Text:</strong> Display a moving text at the bottom of the screen. 'Custom' mode uses text you write, while 'Themed' mode randomly selects from Quranic verses or hadiths.</li>
+</ul>`
+            },
+            mosqueMode: {
+                title: 'Usage as a Digital Mosque Clock',
+                content: `<p>This application is designed to function as a full-screen digital clock in a mosque. Here are the practical steps to set it up:</p>
+<ol>
+<li><strong>Device & Connection:</strong> Connect a computer device (like a Mini PC, Intel NUC, or Raspberry Pi) to a large TV screen or projector in your mosque using an HDMI cable.</li>
+<li><strong>Open in Browser:</strong> Open the Waqti application in a web browser on that device (e.g., Google Chrome or Firefox).</li>
+<li><strong>Fullscreen Mode:</strong> Press the <code>F11</code> key on your keyboard to make the browser enter fullscreen mode, hiding the address bar and tabs. Press <code>F11</code> again to exit.</li>
+<li><strong>Choose the Best Layout:</strong> In the Settings > Display menu, select the 'Layout Template' that is most suitable for remote viewing. <strong>'Focus Clock'</strong> is highly recommended for maximum readability, or <strong>'Information Dashboard'</strong> if you want to display schedules and financial info.</li>
+<li><strong>Install as an App (PWA):</strong> For easy access and offline reliability, install this application onto the device. Look for the 'Install' icon in the browser's address bar or menu. This will create a shortcut on the Desktop.</li>
+<li><strong>Transfer Settings:</strong> Configure all settings on your personal computer first. Then, use the <strong>Export Data</strong> feature to save the settings. Transfer that file to the mosque's computer and use the <strong>Import Data</strong> feature to apply all configurations instantly.</li>
+</ol>`
             },
             alarm: {
                 title: 'Alarm & Dhikr Settings',
-                content: `
-- Alarms: Enable alarms that will sound when it is time for Adhan and Iqamah. You can use the default sound, a URL, or upload your own audio file.
-- Jum'ah Mode: Special settings for Fridays. You can set the Jum'ah time to follow Dhuhr or a manual time. The 'Khutbah Display Duration' replaces the iqamah countdown on Fridays.
-- Display Durations: Set how long the 'Prayer in Progress' screen is shown for each prayer and the total duration for the entire dhikr sequence.
-- Dhikr List: Enable, disable, add, remove, and reorder the list of dhikr that appear after the prayer is completed.`
+                content: `<ul>
+<li><strong>Alarms:</strong> Enable alarms that will sound when it is time for Adhan and Iqamah. You can use the default sound, a URL, or upload your own audio file.</li>
+<li><strong>Jum'ah Mode:</strong> Special settings for Fridays. You can set the Jum'ah time to follow Dhuhr or a manual time. The 'Khutbah Display Duration' replaces the iqamah countdown on Fridays.</li>
+<li><strong>Display Durations:</strong> Set how long the 'Prayer in Progress' screen is shown for each prayer and the total duration for the entire dhikr sequence.</li>
+<li><strong>Dhikr List:</strong> Enable, disable, add, remove, and reorder the list of dhikr that appear after the prayer is completed.</li>
+</ul>`
             },
             slides: {
                 title: 'Slide Settings',
-                content: `
-This feature allows you to display various informational slides that will alternate with the main clock display.
-- Add Slides: Click the buttons to add different types of slides: Text, Image, Schedule, or Finance.
-- Slide Settings: For each slide, you can enable/disable it, set its display duration, and choose if it should only appear on Fridays.
-- Content Types:
-  - Text: Display a title and content with simple formatting.
-  - Image: Display an image from a URL or an uploaded file.
-  - Schedule: Display a list of mosque activities/studies.
-  - Finance: Display a financial report summary, including income, expenses, and final balance, complete with a chart.`
+                content: `<p>This feature allows you to display various informational slides that will alternate with the main clock display.</p>
+<ul>
+<li><strong>Add Slides:</strong> Click the buttons to add different types of slides: Text, Image, Schedule, or Finance.</li>
+<li><strong>Slide Settings:</strong> For each slide, you can enable/disable it, set its display duration, and choose if it should only appear on Fridays.</li>
+<li><strong>Content Types:</strong>
+<ul>
+<li>- <strong>Text:</strong> Display a title and content with simple formatting.</li>
+<li>- <strong>Image:</strong> Display an image from a URL or an uploaded file.</li>
+<li>- <strong>Schedule:</strong> Display a list of mosque activities/studies.</li>
+<li>- <strong>Finance:</strong> Display a financial report summary, including income, expenses, and final balance, complete with a chart.</li>
+</ul>
+</li>
+</ul>`
             }
+        },
+        contact: {
+            title: 'Contact Us',
+            description: 'Have questions, feedback, or suggestions? Please fill out the form below to send us an email. We appreciate your input!',
+            name: 'Name',
+            email: 'Email (Optional)',
+            subject: 'Subject',
+            message: 'Message',
+            send: 'Send Message'
         },
         developedBy: 'This application was developed by:',
         license: 'License:',

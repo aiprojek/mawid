@@ -9,33 +9,45 @@ export const GuideTab: React.FC = () => {
             <p className="text-slate-600 dark:text-slate-300">{t('info.guide.intro')}</p>
 
             <CollapsibleSection title={t('info.guide.general.title')}>
-                <p className="text-slate-700 dark:text-slate-300 whitespace-pre-line">
-                    {t('info.guide.general.content')}
-                </p>
+                <div
+                    className="guide-content text-slate-700 dark:text-slate-300"
+                    dangerouslySetInnerHTML={{ __html: t('info.guide.general.content') }}
+                />
             </CollapsibleSection>
 
             <CollapsibleSection title={t('info.guide.calculation.title')}>
-                <p className="text-slate-700 dark:text-slate-300 whitespace-pre-line">
-                    {t('info.guide.calculation.content')}
-                </p>
+                <div
+                    className="guide-content text-slate-700 dark:text-slate-300"
+                    dangerouslySetInnerHTML={{ __html: t('info.guide.calculation.content') }}
+                />
             </CollapsibleSection>
 
             <CollapsibleSection title={t('info.guide.display.title')}>
-                <p className="text-slate-700 dark:text-slate-300 whitespace-pre-line">
-                    {t('info.guide.display.content')}
-                </p>
+                <div
+                    className="guide-content text-slate-700 dark:text-slate-300"
+                    dangerouslySetInnerHTML={{ __html: t('info.guide.display.content') }}
+                />
             </CollapsibleSection>
 
             <CollapsibleSection title={t('info.guide.alarm.title')}>
-                <p className="text-slate-700 dark:text-slate-300 whitespace-pre-line">
-                    {t('info.guide.alarm.content')}
-                </p>
+                <div
+                    className="guide-content text-slate-700 dark:text-slate-300"
+                    dangerouslySetInnerHTML={{ __html: t('info.guide.alarm.content') }}
+                />
             </CollapsibleSection>
 
             <CollapsibleSection title={t('info.guide.slides.title')}>
-                <p className="text-slate-700 dark:text-slate-300 whitespace-pre-line">
-                    {t('info.guide.slides.content')}
-                </p>
+                <div
+                    className="guide-content text-slate-700 dark:text-slate-300"
+                    dangerouslySetInnerHTML={{ __html: t('info.guide.slides.content') }}
+                />
+            </CollapsibleSection>
+            
+            <CollapsibleSection title={t('info.guide.mosqueMode.title')}>
+                <div
+                    className="guide-content text-slate-700 dark:text-slate-300"
+                    dangerouslySetInnerHTML={{ __html: t('info.guide.mosqueMode.content') }}
+                />
             </CollapsibleSection>
         </div>
     );

@@ -55,10 +55,10 @@ export const FocusClockLayout: React.FC<LayoutProps> = ({
         const nextPrayerName = nextPrayer ? (isFriday && settings.enableFridayMode && nextPrayer.name === 'Dhuhr' ? t('general.jummah') : t(`prayerNames.${nextPrayer.name}`)) : '';
 
         return (
-            <div className={`w-full h-full flex flex-col items-center justify-evenly p-4 gap-6 transition-opacity duration-300 ${staleClass}`}>
-                <div className="text-center">
+            <div className={`w-full h-full flex flex-col items-center justify-start p-2 gap-2 transition-opacity duration-300 ${staleClass}`}>
+                <div className="text-center flex-shrink-0">
                     <h1 
-                        className="font-mono font-bold tracking-tighter text-shadow-lg text-[clamp(3rem,18vh,6rem)] leading-none flex items-baseline justify-center py-2"
+                        className="font-mono font-bold tracking-tighter text-shadow-lg text-[clamp(3rem,12vh,5.5rem)] leading-none flex items-baseline justify-center py-2"
                         style={{textShadow: '3px 3px 15px rgba(0,0,0,0.5)'}}
                     >
                         <AnimatedDigit value={hours} />
@@ -68,36 +68,36 @@ export const FocusClockLayout: React.FC<LayoutProps> = ({
                             <AnimatedDigit value={seconds} />
                         </span>
                     </h1>
-                    <div className="flex justify-center items-center gap-2 text-[clamp(0.9rem,3vh,1.5rem)] tracking-wide text-slate-700 dark:text-white/90 mt-2">
+                    <div className="flex justify-center items-center gap-2 text-[clamp(0.9rem,2.5vh,1.2rem)] tracking-wide text-slate-700 dark:text-white/90 mt-1">
                         <span className="transition-opacity duration-300" style={{ opacity: dateOpacity }}>
                             {formattedDay}, {dateToShow}
                         </span>
                     </div>
                 </div>
 
-                <div className="w-full max-w-md mx-auto">
+                <div className="w-full max-w-md mx-auto flex-shrink-0">
                     {nextPrayer && (
-                        <div className="text-center bg-white/10 dark:bg-black/20 backdrop-blur-md border border-[var(--accent-color)] rounded-3xl p-6 animate-pulse-glow">
+                        <div className="text-center bg-white/10 dark:bg-black/20 backdrop-blur-md border border-[var(--accent-color)] rounded-3xl p-4 animate-pulse-glow">
                             <p className="text-sm uppercase tracking-widest text-white font-bold" style={{ textShadow: '0 0 8px var(--accent-color), 0 0 4px rgba(0,0,0,0.6)' }}>
                                 {t('main.upNext')}
                             </p>
-                            <h2 className="text-[clamp(2rem,8vw,3.5rem)] font-bold my-1">{nextPrayerName}</h2>
-                            <p className="font-mono font-bold text-[clamp(2.5rem,10vw,5rem)] leading-none my-2">{prayerTimes ? prayerTimes[nextPrayer.name] : '--:--'}</p>
-                            <p className="font-mono text-lg opacity-80">{t('main.in')} {timeToNextPrayer}</p>
+                            <h2 className="text-[clamp(1.8rem,6vw,3rem)] font-bold">{nextPrayerName}</h2>
+                            <p className="font-mono font-bold text-[clamp(2.2rem,8vw,4rem)] leading-none my-1">{prayerTimes ? prayerTimes[nextPrayer.name] : '--:--'}</p>
+                            <p className="font-mono text-base opacity-80">{t('main.in')} {timeToNextPrayer}</p>
                         </div>
                     )}
                 </div>
         
-                <div className="w-full max-w-md mx-auto">
-                    <h3 className="text-center mb-3 text-lg font-semibold opacity-80">{t('main.otherPrayerTimes')}</h3>
-                    <div className="grid grid-cols-2 gap-3">
+                <div className="w-full max-w-md mx-auto flex-grow flex flex-col min-h-0">
+                    <h3 className="text-center mb-2 text-base font-semibold opacity-80 flex-shrink-0">{t('main.otherPrayerTimes')}</h3>
+                    <div className="grid grid-cols-2 gap-2 overflow-y-auto">
                         {upcomingPrayers.map(name => {
                             const displayName = isFriday && settings.enableFridayMode && name === 'Dhuhr' ? t('general.jummah') : t(`prayerNames.${name}`);
                             const showIqamah = !(isFriday && settings.enableFridayMode && name === 'Dhuhr');
                             return (
-                                <div key={name} className="flex flex-col items-center justify-center p-3 rounded-xl bg-white/10 dark:bg-black/20 backdrop-blur-sm border border-white/10 dark:border-white/10 text-center">
-                                    <p className="font-semibold text-base text-slate-800 dark:text-white/90">{displayName}</p>
-                                    <p className="font-mono font-bold text-2xl my-1 text-slate-800 dark:text-white">{prayerTimes ? prayerTimes[name] : '--:--'}</p>
+                                <div key={name} className="flex flex-col items-center justify-center p-2 rounded-xl bg-white/10 dark:bg-black/20 backdrop-blur-sm border border-white/10 dark:border-white/10 text-center">
+                                    <p className="font-semibold text-sm text-slate-800 dark:text-white/90">{displayName}</p>
+                                    <p className="font-mono font-bold text-xl my-0.5 text-slate-800 dark:text-white">{prayerTimes ? prayerTimes[name] : '--:--'}</p>
                                     {showIqamah && (
                                         <p className="text-xs text-slate-600 dark:text-slate-300/80">{t('main.iqamahOffset', { minutes: settings.iqamahOffsets[name].toString() })}</p>
                                     )}

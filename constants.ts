@@ -66,7 +66,7 @@ export const DEFAULT_PRAYER_TIMES: PrayerTimes = {
 const DEFAULT_ALARM_SOUND = 'https://cdn.pixabay.com/download/audio/2022/03/15/audio_32283e5329.mp3?filename=alarm-clock-90867.mp3';
 
 // Function to get default slides based on language
-const getDefaultFridaySlides = (lang: Language): Slide[] => {
+export const getDefaultFridaySlides = (lang: Language): Slide[] => {
     const locale = getRawLocale(lang);
     return locale.defaults.fridaySlides.map((slideContent, index) => ({
         id: `friday-slide-${index + 1}`,
